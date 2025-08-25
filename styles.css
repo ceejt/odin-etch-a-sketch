@@ -1,0 +1,27 @@
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 150px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 480px;
+    height: 480px;
+    border: 4px solid black;
+}
+
+.box {
+    outline: 1px solid grey;
+    width: 30px;
+    height: 30px;
+}
+
+:hover.box {
+    background-color: rgb(121, 101, 146);
+    transition: 0.5s;
+}
