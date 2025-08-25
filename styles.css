@@ -1,8 +1,14 @@
-body{
+.title{
+    text-align: center;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 20px;
+    margin-top: 50px;
+}
+.wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 .container {
@@ -23,5 +29,5 @@ body{
 
 :hover.box {
     background-color: rgb(121, 101, 146);
-    transition: 0.5s;
+    transition: 0.25s;
 }
