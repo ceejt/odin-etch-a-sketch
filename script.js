@@ -1,7 +1,98 @@
+const container = document.querySelector('.container'); 
+const squareDiv = {}; 
+
+// Create grid at the start
 for (let i = 0; i < 256; i++) {
     const div = document.createElement('div');
     div.classList.add('box');
-    document.querySelector('.container').appendChild(div);
+    container.appendChild(div);
+}
+paintGrid();
+
+// grid size text output
+let gridSlider = document.getElementById("myRange");
+let output = document.getElementById("grid-size");
+output.textContent = gridSlider.value;
+
+gridSlider.oninput = function () {
+  output.textContent = this.value;
+  drawGrid(this.value);
+  paintGrid();
+};
+
+// resize grid
+function drawGrid(numOfSquareDivs) {
+  const squareDivToRemove = document.querySelectorAll(".box");
+  squareDivToRemove.forEach((div) => {
+    container.removeChild(div);
+  });
+
+  if (numOfSquareDivs <= 100) {
+    const totalSquares = numOfSquareDivs * numOfSquareDivs;
+    for (let i = 0; i < totalSquares; i++) {
+      const div = document.createElement("div");
+      div.classList.add("box");
+      div.style.width = `${480 / numOfSquareDivs}px`;
+      div.style.height = `${480 / numOfSquareDivs}px`;
+      container.appendChild(div);
+    }
+  }
+}
+
+//random color and darken function
+function paintGrid() {
+  const boxes = document.querySelectorAll('.box');
+  
+  boxes.forEach(box => {
+    box.dataset.interactions = '0';
+    
+    box.addEventListener('mouseenter', function() {
+      // Random color & darkening effect
+      const interactions = parseInt(this.dataset.interactions);
+      
+      if (interactions === 0) {
+        // First hover: random color
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        
+        this.dataset.originalR = r;
+        this.dataset.originalG = g;
+        this.dataset.originalB = b;
+        this.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      }
+      
+      if (interactions < 10) {
+        // Progressive darkening
+        const factor = Math.pow(0.9, interactions + 1);
+        const newR = Math.floor(this.dataset.originalR * factor);
+        const newG = Math.floor(this.dataset.originalG * factor);
+        const newB = Math.floor(this.dataset.originalB * factor);
+        
+        this.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`;
+        this.dataset.interactions = interactions + 1;
+      }
+    });
+    
+    // Add click/drag events
+    box.addEventListener('mousedown', () => isDrawing = true);
+    box.addEventListener('mouseup', () => isDrawing = false);
+    // ... more event listeners
+  });
+}
+
+//title style
+const title = document.querySelector('h1');
+const text = title.textContent;
+title.innerHTML = '';
+
+
+for (let i = 0; i < text.length; i++) {
+  if (text[i] === ' ') {
+    title.innerHTML += ' ';
+  } else {
+    title.innerHTML += `<span class="letter">${text[i]}</span>`;
+  }
 }
 
 // document.getElementById('resize').addEventListener('click', function resizeGrid() {
@@ -33,202 +124,3 @@ for (let i = 0; i < 256; i++) {
 //         }
 //     }
 // });
-
-    
-
-
-function darkenBoxColor () {
-}
-
-const body = document.querySelector("body");
-const container = document.querySelector(".container");
-const button = document.createElement("button");
-const mainContainer = document.querySelector(".main-container");
-
-button.textContent = "Click Me";
-mainContainer.appendChild(container);
-
-const squareDiv = {};
-
-for (let i = 0; i < 16; i++) {
-  for (let j = 0; j < 16; j++) {
-    squareDiv[j] = document.createElement("div");
-    squareDiv[j].classList.add("square-div");
-    container.appendChild(squareDiv[j]);
-  }
-}
-
-paintGrid();
-
-/* GRID SLIDER */
-let gridSlider = document.getElementById("myRange");
-let output = document.getElementById("grid-size");
-output.textContent = gridSlider.value;
-gridSlider.oninput = function () {
-  output.textContent = this.value;
-  drawGrid(this.value);
-  paintGrid();
-};
-
-function drawGrid(numOfSquareDivs) {
-  const squareDivToRemove = document.querySelectorAll(".square-div");
-  squareDivToRemove.forEach((div) => {
-    container.removeChild(div);
-  });
-
-  if (numOfSquareDivs <= 100) {
-    for (let i = 0; i < numOfSquareDivs; i++) {
-      for (let j = 0; j < numOfSquareDivs; j++) {
-        squareDiv[j] = document.createElement("div");
-        squareDiv[j].classList.add("square-div");
-        squareDiv[j].style.width = `${512 / numOfSquareDivs}px`;
-        squareDiv[j].style.height = `${512 / numOfSquareDivs}px`;
-        container.appendChild(squareDiv[j]);
-      }
-    }
-  }
-}
-let isDrawing = 0;
-let isMoving = 0;
-let pass = 0,
-  IncrementalyDarkening = 0;
-
-function paintGrid(name) {
-  const eachSquareDiv = document.querySelectorAll(".square-div");
-
-  eachSquareDiv.forEach((div) => {
-    div.addEventListener("mousedown", (e) => {
-      isDrawing = 1;
-      if (isIncrementalyDarkening) {
-        IncrementalyDarkening = 1;
-      }
-    });
-    div.addEventListener("mousemove", (e) => {
-      if (isDrawing) {
-        draw(e, color);
-      }
-      if (isRandomColorDrawing) {
-        drawrandomColor(
-          e,
-          `rgb(${redComponent}, ${blueComponent}, ${greenComponent})`
-        );
-      }
-      if (isErasing) {
-        erase(e, "white");
-      }
-      if (IncrementalyDarkening) {
-        darkenIncrementally(e);
-      }
-    });
-    div.addEventListener("mouseup", (e) => {
-      isDrawing = 0;
-      IncrementalyDarkening = 0;
-    });
-  });
-}
-
-function draw(e, color) {
-  if (isDrawing == 1 && e.button == 0) {
-    e.target.style.backgroundColor = color;
-  }
-}
-
-/*GRID CLEAR  */
-const gridClear = document.querySelector(".grid-clear");
-gridClear.addEventListener("click", () => {
-  const eachSquareDiv = document.querySelectorAll(".square-div");
-  eachSquareDiv.forEach((div) => {
-    // console.log(div.style["background-color"]);
-    if (div.style["background-color"] === "black") {
-      div.removeAttribute("background-color");
-    }
-  });
-});
-
-/* TOGGLE GRID LINES */
-const toggleGridLines = document.querySelector(".toggle-grid-lines");
-toggleGridLines.addEventListener("click", () => {
-  const eachSquareDiv = document.querySelectorAll(".square-div");
-  eachSquareDiv.forEach((div) => {
-    div.classList.toggle("grid-lines");
-  });
-});
-
-/* RANDOM COLOUR */
-let redComponent;
-let greenComponent;
-let blueComponent;
-
-let isErasing = 0,
-  isRandomColorDrawing = 0,
-  color,
-  isIncrementalyDarkening = 0;
-
-const randomColor = document.querySelector(".random-color");
-function drawrandomColor(e, color) {
-  const eachSquareDiv = document.querySelectorAll(".square-div");
-  eachSquareDiv.forEach((div) => {
-    redComponent = Math.floor(Math.random() * 256);
-    greenComponent = Math.floor(Math.random() * 256);
-    blueComponent = Math.floor(Math.random() * 256);
-    if (isDrawing == 1 && e.button == 0) {
-      e.target.style.backgroundColor = `rgb(${redComponent}, ${blueComponent}, ${greenComponent})`;
-    }
-  });
-}
-randomColor.addEventListener("click", () => {
-  this.active = !this.active;
-  this.active ? (isRandomColorDrawing = 1) : (isRandomColorDrawing = 0);
-});
-
-/* ERASER */
-function erase(e, color) {
-  if (isDrawing == 1 && isErasing == 1 && e.button == 0) {
-    e.target.style.backgroundColor = "white";
-  }
-}
-
-const eraser = document.querySelector(".eraser");
-eraser.addEventListener("click", () => {
-  this.active = !this.active;
-  this.active ? (isErasing = 1) : (isErasing = 0);
-});
-
-/* COLOR PICKER */
-const colorPicker = document.getElementById("color-picker");
-color = colorPicker.value;
-colorPicker.addEventListener("input", () => {
-  color = colorPicker.value;
-});
-
-/* INCREMENTAllY DARKEN */
-const incrementalDarken = document.querySelector(".incremental-darken");
-incrementalDarken.addEventListener("click", () => {
-  this.active = !this.active;
-  this.active ? (isIncrementalyDarkening = 1) : (isIncrementalyDarkening = 0);
-});
-
-function darkenIncrementally(e) {
-  if (e.button == 0 && IncrementalyDarkening == 1) {
-    console.log(e.target.style.backgroundColor);
-    let squareDiv, colors;
-
-    squareDiv = getComputedStyle(e.target).getPropertyValue("background-color");
-    console.log(squareDiv);
-
-    //Get values
-    colors = squareDiv.split(", ");
-    colors[0] = parseFloat(colors[0].split("(")[1]);
-    colors[1] = parseFloat(colors[1]);
-    colors[2] = parseFloat(colors[2]);
-
-    //Correct missing alpha
-    if (colors.length == 3) {
-      colors[3] = 1;
-    }
-    //Apply new style
-    colors[3] = parseFloat(colors[3]) - 0.1;
-    colors = "rgba(" + colors.join(",") + ")";
-    e.target.style.backgroundColor = colors;
-  }
-}

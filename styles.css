@@ -2,7 +2,6 @@
     text-align: center;
     font-family:'Courier New', Courier, monospace;
     font-size: 20px;
-    margin-top: 50px;
 }
 
 .controls {
@@ -69,3 +68,17 @@
     background-color: rgb(70, 70, 70);
     transition: 0.25s;
 }
+
+.letter:nth-child(1) { color: #ff6b6b; }
+.letter:nth-child(2) { color: #4ecdc4; }
+.letter:nth-child(3) { color: #45b7d1; }
+.letter:nth-child(4) { color: #f9ca24; }
+.letter:nth-child(5) { color: #f0932b; }
+.letter:nth-child(6) { color: #eb4d4b; }
+.letter:nth-child(7) { color: #6c5ce7; }
+.letter:nth-child(8) { color: #e79f5c; }
+.letter:nth-child(9) { color: #ca378f; }
+.letter:nth-child(10) { color: #56a987; }
+.letter:nth-child(11) { color: #6dca37; }
+.letter:nth-child(12) { color: hsl(277, 100%, 67%); }
+.letter:nth-child(13) { color: hsl(301, 28%, 69%); }
