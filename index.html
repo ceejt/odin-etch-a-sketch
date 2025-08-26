@@ -8,10 +8,18 @@
 </head>
 <body>
     <script src="script.js" defer></script>
+
     <div class="title">
         <h1>Etch-a-Sketch</h1>
-        <button id="resize" onclick = "resizeGrid">Resize</button>
+        <!-- <button id="resize" onclick = "resizeGrid">Resize</button> -->
     </div>
+
+    <div class="controls">
+        <input type="range" min="1" max="100" value="16" class="grid-size-slider" id="myRange" />
+        <span class="grid-label">Grid Size: </span> 
+        <span id="grid-size"></span>
+    </div>
+
     <div class="wrapper">
         <div class="container"></div>
     </div>

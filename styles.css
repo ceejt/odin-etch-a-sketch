@@ -4,6 +4,43 @@
     font-size: 20px;
     margin-top: 50px;
 }
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.grid-size-slider {
+    display: block;
+    width: 200px;
+    height: 3px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    /* -webkit-transition: 0.2s; */
+    transition: opacity 0.2s;
+}
+
+.grid-label {
+    margin-left: 10px;
+}
+
+
+.button {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
 .wrapper {
     display: flex;
     align-items: center;
@@ -28,6 +65,7 @@
 }
 
 :hover.box {
-    background-color: rgb(121, 101, 146);
+    /* background-color: rgb(121, 101, 146); */
+    background-color: rgb(70, 70, 70);
     transition: 0.25s;
 }
